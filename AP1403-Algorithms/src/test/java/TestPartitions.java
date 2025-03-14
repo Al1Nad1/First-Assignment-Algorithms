@@ -16,7 +16,7 @@ public class TestPartitions {
         int[][] expected = {
                 {1}
         };
-        assertArrayEquals(expected, ex.intPartitions(1));
+        assertArrayEquals(expected, Exercises.intPartitions(1));
     }
 
     @Test

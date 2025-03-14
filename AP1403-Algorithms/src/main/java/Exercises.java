@@ -1,3 +1,7 @@
+import java.util.ArrayList;
+import java.util.List;
+
+
 public class Exercises {
 
     /*
@@ -75,41 +79,39 @@ public class Exercises {
 
         if you're familiar with lists and arraylists, you can also edit method's body to use them instead of array
     */
-    public void intPartitionsHelper(int n, int max, String partition) {
+    public static void intPartitionsHelper(int n, int max, List<Integer> variable ,List<List<Integer>> result) {
         if (n == 0) {
-            System.out.println(partition.trim());
+            result.add(new ArrayList<>(variable));
             return;
         }
         for (int i = Math.min(n, max); i >= 1; i--) {
-            intPartitionsHelper(n - i, i, partition + i + " ");
+            variable.add(i);
+            intPartitionsHelper(n - i, i, variable, result);
+            variable.remove(variable.size() - 1);
         }
+
     }
 
-    public void intPartitions(int n) {
-        intPartitionsHelper(n, n, "");
+    public static int[][] intPartitions(int n) {
+        List<List<Integer>> result = new ArrayList<>();
+        intPartitionsHelper(n, n, new ArrayList<>(), result);
+        return changer(result);
     }
+
+    private static int[][] changer(List<List<Integer>> A){
+        int[][] unit = new int[A.size()][] ;
+        for (int i = 0; i < A.size(); i++){
+            List <Integer> row = A.get(i);
+            unit[i] = row.stream().mapToInt(Integer::intValue).toArray();
+        }
+        return unit;
+    }
+
+
 
     public static void main(String[] args) {
-    
+
         Exercises ex = new Exercises();
-        
-        // Test productIndices
-        int[] indices = ex.productIndices(new int[]{1, 2, 3, 4}, 8);
-        System.out.println("Product Indices: [" + indices[0] + ", " + indices[1] + "]");
 
-        // Test spiralTraversal
-        int[][] matrix = {
-            {2, 6, 10},
-            {14, 20, 26},
-            {32, 38, 44}
-        };
-        int[] spiral = ex.spiralTraversal(matrix, 3, 3);
-        System.out.print("Spiral Traversal: ");
-        for (int num : spiral) System.out.print(num + " ");
-        System.out.println();
-
-        // Test integer partitions
-        System.out.println("Integer Partitions of 4:");
-        ex.intPartitions(4);
     }
 }
